@@ -23,7 +23,7 @@ android {
     buildTypes {
         debug {
             buildConfigField("String", "FIXER_API_KEY", "\"3a9a1613007f143e9cd47ee35c7e6491\"")
-            buildConfigField("String", "BASE_URL", "\"https://api.example.com/\"")
+            buildConfigField("String", "BASE_URL", "\"http://data.fixer.io/api/\"")
         }
         release {
             isMinifyEnabled = false
@@ -32,7 +32,7 @@ android {
                 "proguard-rules.pro"
             )
             buildConfigField("String", "FIXER_API_KEY", "\"3a9a1613007f143e9cd47ee35c7e6491\"")
-            buildConfigField("String", "BASE_URL", "\"https://api.example.com/\"")
+            buildConfigField("String", "BASE_URL", "\"http://data.fixer.io/api/\"")
         }
     }
     buildFeatures {
@@ -59,6 +59,13 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
 
+    // define a BOM and its version
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.12.0"))
+
+    // define any required OkHttp artifacts without version
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:logging-interceptor")
+
     // Retrofit with Gson Converter
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
@@ -76,6 +83,8 @@ dependencies {
 
     // Gson for JSON parsing
     implementation("com.google.code.gson:gson:2.10")
+
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
 
     // Test dependencies
     testImplementation("junit:junit:4.13.2")

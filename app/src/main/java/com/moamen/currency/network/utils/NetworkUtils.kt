@@ -5,7 +5,7 @@ import android.net.ConnectivityManager
 import com.moamen.currency.CurrencyApplication
 import javax.inject.Inject
 
-class NetworkUtils @Inject constructor() {
+object NetworkUtils {
 
     fun isNetworkAvailable(): Boolean {
         val connectivityManager =

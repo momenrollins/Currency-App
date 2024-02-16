@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeToRefresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.CurrencyConverterFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/lastUpdateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Last update:" />
+
+        <Spinner
+            android:id="@+id/fromCurrencySpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/swapImageButton"
+            tools:listitem="@android:layout/simple_spinner_dropdown_item" />
+
+        <ImageButton
+            android:id="@+id/swapImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:src="@drawable/baseline_swap_horiz_24"
+            app:layout_constraintEnd_toStartOf="@+id/toCurrencySpinner"
+            app:layout_constraintStart_toEndOf="@+id/fromCurrencySpinner"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/toCurrencySpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/swapImageButton"
+            tools:listitem="@android:layout/simple_spinner_dropdown_item" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fromTextInputLayout"
+            style="@style/Widget.Material3.TextInputLayout.FilledBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:hint="From"
+            app:layout_constraintEnd_toStartOf="@+id/swapImageButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fromCurrencySpinner">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fromEditText"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:inputType="numberDecimal"
+                android:minHeight="0dp"
+                android:text="1"
+                android:singleLine="true"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/toTextInputLayout"
+            style="@style/Widget.Material3.TextInputLayout.FilledBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:hint="To"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/swapImageButton"
+            app:layout_constraintTop_toBottomOf="@+id/fromCurrencySpinner">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/toEditText"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:inputType="numberDecimal"
+                android:minHeight="0dp"
+                android:singleLine="true"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/detailsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="108dp"
+            android:text="Details"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/swapImageButton" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

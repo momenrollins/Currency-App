@@ -3,16 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/CurrencyConverterFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.moamen.currency.ui.fragments.FirstFragment"
+        android:id="@+id/CurrencyConverterFragment"
+        android:name="com.moamen.currency.ui.fragments.CurrencyConverterFragment"
         android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        tools:layout="@layout/fragment_currency_converter">
+
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
+            android:id="@+id/action_CurrencyConverterFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
     </fragment>
     <fragment
