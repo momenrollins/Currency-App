@@ -97,6 +97,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="108dp"
             android:text="Details"
+            android:enabled="false"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

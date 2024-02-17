@@ -11,15 +11,20 @@
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_currency_converter">
 
-
         <action
-            android:id="@+id/action_CurrencyConverterFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_CurrencyConverterFragment_to_DetailsFragment"
+            app:destination="@id/DetailsFragment" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
+        android:id="@+id/DetailsFragment"
         android:name="com.moamen.currency.ui.fragments.DetailsFragment"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_details">
+        <argument
+            android:name="fromCurrency"
+            app:argType="string" />
+        <argument
+            android:name="toCurrency"
+            app:argType="string" />
     </fragment>
 </navigation>

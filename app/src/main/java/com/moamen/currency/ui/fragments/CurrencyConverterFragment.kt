@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.moamen.currency.R
@@ -25,7 +26,7 @@ import java.util.Locale
 class CurrencyConverterFragment : Fragment() {
 
     private lateinit var binding: FragmentCurrencyConverterBinding
-    private val viewModel: CurrencyViewModel by viewModels()
+    private val viewModel: CurrencyViewModel by activityViewModels()
     private var rates: Map<String, Double>? = null
     private var isUpdatingEditText = false
 
@@ -91,7 +92,14 @@ class CurrencyConverterFragment : Fragment() {
             updateToValue()
         }
         binding.detailsButton.setOnClickListener {
-            findNavController().navigate(R.id.action_CurrencyConverterFragment_to_SecondFragment)
+            val fromCurrency = binding.fromCurrencySpinner.selectedItem.toString()
+            val toCurrency = binding.toCurrencySpinner.selectedItem.toString()
+            findNavController().navigate(
+                CurrencyConverterFragmentDirections.actionCurrencyConverterFragmentToDetailsFragment(
+                    fromCurrency,
+                    toCurrency
+                )
+            )
         }
         binding.fromEditText.addTextChangedListener {
             if (!isUpdatingEditText)
@@ -116,6 +124,7 @@ class CurrencyConverterFragment : Fragment() {
 
                 is UiState.Success -> {
                     binding.swipeToRefresh.isRefreshing = false
+                    binding.detailsButton.isEnabled = true
                     binding.lastUpdateTextView.text =
                         "Last update: " + state.data.timestamp.toDate()
                     rates = state.data.rates

@@ -30,6 +30,7 @@ class CurrencyViewModel @Inject constructor(
     private val _historyState = MutableLiveData<UiState<List<CurrencyModel>>>()
     val historyState: LiveData<UiState<List<CurrencyModel>>> get() = _historyState
 
+     var latestRates: CurrencyModel? = null
     fun fetchLatestRates() {
         if (!NetworkUtils.isNetworkAvailable())
             _latestRatesState.value = UiState.Error("Check your network and try again!")
@@ -42,6 +43,7 @@ class CurrencyViewModel @Inject constructor(
                     else repository.getLatestRates()
                     if (response.success) {
                         _latestRatesState.value = UiState.Success(response)
+                        latestRates = response
                     } else {
                         _latestRatesState.value = UiState.Error("Failed to fetch latest rates")
                     }
