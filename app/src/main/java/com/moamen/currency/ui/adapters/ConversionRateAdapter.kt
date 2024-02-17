@@ -34,17 +34,17 @@ class ConversionRateAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SetTextI18n")
-        fun bind(toValue: Double?, toCurrency: String) {
+        fun bind(toRate: Double?, toCurrency: String) {
             binding.textViewFromValue.text = "1 $fromCurrency"
-            binding.textViewToValue.text = "${calculateValue(toValue ?: 0.0)} $toCurrency"
+            binding.textViewToValue.text = "${calculateValue(toRate ?: 0.0)} $toCurrency"
         }
     }
 
     private fun calculateValue(
-        toValue: Double
+        toRate: Double
     ): String {
         val fromValue: Double = rates[fromCurrency] ?: 0.0
-        val conversionRate = toValue.div(fromValue)
+        val conversionRate = toRate.div(fromValue)
         return String.format("%.2f", conversionRate)
     }
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.moamen.currency.BuildConfig
+import com.moamen.currency.model.ConvertedHistoryModel
 import com.moamen.currency.model.CurrencyModel
 import com.moamen.currency.network.utils.NetworkUtils
 import com.moamen.currency.repository.CurrencyRepository
@@ -27,8 +28,8 @@ class CurrencyViewModel @Inject constructor(
     private val _latestRatesState = MutableLiveData<UiState<CurrencyModel>>()
     val latestRatesState: LiveData<UiState<CurrencyModel>> get() = _latestRatesState
 
-    private val _historyState = MutableLiveData<UiState<List<CurrencyModel>>>()
-    val historyState: LiveData<UiState<List<CurrencyModel>>> get() = _historyState
+    private val _historyState = MutableLiveData<UiState<List<ConvertedHistoryModel>>>()
+    val historyState: LiveData<UiState<List<ConvertedHistoryModel>>> get() = _historyState
 
     var latestRates: CurrencyModel? = null
     fun fetchLatestRates() {
@@ -54,13 +55,36 @@ class CurrencyViewModel @Inject constructor(
         }
     }
 
+    private fun getConvertList(
+        symbols: String,
+        currencyModels: List<CurrencyModel>
+    ): List<ConvertedHistoryModel> {
+        return currencyModels.map { model ->
+            val fromCurrency = symbols.split(",").first()
+            val toCurrency = symbols.split(",").last()
+            ConvertedHistoryModel(
+                model.date,
+                1.0,
+                fromCurrency,
+                calculateValue(
+                    model.rates[fromCurrency] ?: 1.0,
+                    model.rates[toCurrency] ?: 1.0
+                ),
+                toCurrency
+            )
+        }
+    }
+
     fun fetchHistoricalData(symbols: String) {
         if (!NetworkUtils.isNetworkAvailable())
             _historyState.value = UiState.Error("Check your network and try again!")
         else {
             _historyState.value = UiState.Loading
-            if (BuildConfig.DEBUG) _historyState.value = UiState.Success(currencyModels)
-            else
+            var convertedList: List<ConvertedHistoryModel>
+            if (BuildConfig.DEBUG) {
+                convertedList = getConvertList(symbols, currencyModels)
+                _historyState.value = UiState.Success(convertedList)
+            } else
                 viewModelScope.launch {
                     try {
                         val currentDate = LocalDate.now()
@@ -76,7 +100,8 @@ class CurrencyViewModel @Inject constructor(
                         val resultList = deferredResults.awaitAll()
 
                         if (resultList.all { it.success }) {
-                            _historyState.value = UiState.Success(resultList)
+                            convertedList = getConvertList(symbols, resultList)
+                            _historyState.value = UiState.Success(convertedList)
                         } else {
                             _historyState.value = UiState.Error("Failed to fetch historical data")
                         }
@@ -87,7 +112,15 @@ class CurrencyViewModel @Inject constructor(
         }
     }
 
-    val currencyModels = listOf(
+    private fun calculateValue(
+        fromRate: Double,
+        toRate: Double
+    ): Double {
+        val conversionRate = toRate.div(fromRate)
+        return String.format("%.2f", conversionRate).toDouble()
+    }
+
+    private val currencyModels = listOf(
         CurrencyModel(
             success = true,
             timestamp = 1708127999,

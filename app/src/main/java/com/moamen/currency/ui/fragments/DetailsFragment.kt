@@ -19,6 +19,7 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.moamen.currency.databinding.FragmentDetailsBinding
+import com.moamen.currency.model.ConvertedHistoryModel
 import com.moamen.currency.model.CurrencyModel
 import com.moamen.currency.ui.adapters.ConversionRateAdapter
 import com.moamen.currency.ui.adapters.CurrencyHistoryAdapter
@@ -97,19 +98,11 @@ class DetailsFragment : Fragment() {
         }
     }
 
-    private fun drawChart(currencyModels: List<CurrencyModel>) {
+    private fun drawChart(currencyModels: List<ConvertedHistoryModel>) {
         val entries: MutableList<Entry> = ArrayList()
 
         currencyModels.forEachIndexed { index, currencyModel ->
-            val fromCurrency = currencyModel.rates.keys.firstOrNull()
-            val toCurrency = currencyModel.rates.keys.lastOrNull()
-
-            if (fromCurrency != null && toCurrency != null) {
-                val conversionRate = currencyModel.rates[toCurrency]?.div(currencyModel.rates[fromCurrency] ?: 1.0) ?: 0.0
-                val convertedValue = 1 * conversionRate
-
-                entries.add(Entry(index.toFloat(), convertedValue.toFloat()))
-            }
+            entries.add(Entry(index.toFloat(), currencyModel.toValue.toFloat()))
         }
 
         val dataSet = LineDataSet(entries, "Historical Conversion")

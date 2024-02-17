@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.moamen.currency.databinding.ItemCurrencyHistoryBinding
-import com.moamen.currency.model.CurrencyModel
+import com.moamen.currency.model.ConvertedHistoryModel
 
-class CurrencyHistoryAdapter(var items: List<CurrencyModel>) :
+class CurrencyHistoryAdapter(var items: List<ConvertedHistoryModel>) :
     RecyclerView.Adapter<CurrencyHistoryAdapter.CurrencyHistoryViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -27,27 +27,9 @@ class CurrencyHistoryAdapter(var items: List<CurrencyModel>) :
     inner class CurrencyHistoryViewHolder(private val binding: ItemCurrencyHistoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: CurrencyModel) {
-            val fromCurrency: String = item.rates.keys.first()
-            val toCurrency: String = item.rates.keys.last()
-            binding.apply {
-                textViewDate.text = item.date
-                textViewFromCurrency.text = item.rates.keys.first()
-                textViewFromValue.text = "1"
-                textViewToCurrency.text = item.rates.keys.last()
-                textViewToValue.text = calculateValue(fromCurrency, toCurrency, item.rates)
-                item.rates.values.last().toString()
-            }
+        fun bind(item: ConvertedHistoryModel) {
+            binding.convertedHistory = item
+            binding.executePendingBindings()
         }
-    }
-
-    private fun calculateValue(
-        fromCurrency: String,
-        toCurrency: String,
-        rates: Map<String, Double>
-    ): String {
-        val conversionRate = rates[toCurrency]?.div(rates[fromCurrency] ?: 1.0) ?: 0.0
-        val convertedValue = 1 * conversionRate
-        return String.format("%.2f", convertedValue)
     }
 }
