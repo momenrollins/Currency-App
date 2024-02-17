@@ -12,4 +12,8 @@ open class CurrencyRepository @Inject constructor(
     suspend fun getLatestRates(): CurrencyModel {
         return apiService.getLatestRates(BuildConfig.FIXER_API_KEY)
     }
+
+    suspend fun getHistoricalRates(date: String, symbols: String): CurrencyModel {
+        return apiService.getHistoricalRates(date,BuildConfig.FIXER_API_KEY, symbols)
+    }
 }

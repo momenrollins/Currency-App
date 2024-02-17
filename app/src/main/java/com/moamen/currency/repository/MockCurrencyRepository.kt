@@ -24,4 +24,12 @@ object MockCurrencyApiService : CurrencyApiService {
             )
         )
     }
+
+    override suspend fun getHistoricalRates(
+        date: String,
+        apiKey: String,
+        symbols: String
+    ): CurrencyModel {
+        TODO("Not yet implemented")
+    }
 }

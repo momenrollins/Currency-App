@@ -148,46 +148,53 @@ class CurrencyConverterFragment : Fragment() {
     }
 
     private fun updateToValue() {
-        val fromCurrency = binding.fromCurrencySpinner.selectedItem.toString()
-        val toCurrency = binding.toCurrencySpinner.selectedItem.toString()
-        val fromAmountText = binding.fromTextInputLayout.editText?.text.toString()
-        val fromAmount = fromAmountText.toDoubleOrNull() ?: 0.0
+        try {
+            val fromCurrency = binding.fromCurrencySpinner.selectedItem.toString()
+            val toCurrency = binding.toCurrencySpinner.selectedItem.toString()
+            val fromAmountText = binding.fromTextInputLayout.editText?.text.toString()
+            val fromAmount = fromAmountText.toDoubleOrNull() ?: 0.0
 
-        // Get the conversion rate from the rates map
-        val conversionRate = rates?.get(toCurrency)?.div(rates!![fromCurrency] ?: 1.0) ?: 0.0
+            // Get the conversion rate from the rates map
+            val conversionRate = rates?.get(toCurrency)?.div(rates!![fromCurrency] ?: 1.0) ?: 0.0
 
-        // Calculate the converted value
-        val convertedValue = fromAmount * conversionRate
+            // Calculate the converted value
+            val convertedValue = fromAmount * conversionRate
 
-        // Format the converted value to display two decimal places
-        val formattedValue = String.format("%.2f", convertedValue)
+            // Format the converted value to display two decimal places
+            val formattedValue = String.format("%.2f", convertedValue)
 
-        // Set the converted value in the TO TextInputEditText
-        isUpdatingEditText = true
-        binding.toTextInputLayout.editText?.setText(formattedValue)
-        isUpdatingEditText = false
-
+            // Set the converted value in the TO TextInputEditText
+            isUpdatingEditText = true
+            binding.toTextInputLayout.editText?.setText(formattedValue)
+            isUpdatingEditText = false
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     private fun updateFromValue() {
-        val fromCurrency = binding.fromCurrencySpinner.selectedItem.toString()
-        val toCurrency = binding.toCurrencySpinner.selectedItem.toString()
+        try {
+            val fromCurrency = binding.fromCurrencySpinner.selectedItem.toString()
+            val toCurrency = binding.toCurrencySpinner.selectedItem.toString()
 
-        // Get the value from the TO EditText
-        val toAmountText = binding.toEditText.text.toString()
-        val toAmount = toAmountText.toDoubleOrNull() ?: 0.0
+            // Get the value from the TO EditText
+            val toAmountText = binding.toEditText.text.toString()
+            val toAmount = toAmountText.toDoubleOrNull() ?: 0.0
 
-        // Calculate the converted value
-        val conversionRate = rates?.get(fromCurrency)?.div(rates!![toCurrency] ?: 1.0)
-        val fromAmount = toAmount * conversionRate!!
+            // Calculate the converted value
+            val conversionRate = rates?.get(fromCurrency)?.div(rates!![toCurrency] ?: 1.0)
+            val fromAmount = toAmount * conversionRate!!
 
-        // Format the converted value to display two decimal places
-        val formattedValue = String.format("%.2f", fromAmount)
+            // Format the converted value to display two decimal places
+            val formattedValue = String.format("%.2f", fromAmount)
 
-        // Set the value in the FROM TextInputEditText
-        isUpdatingEditText = true
-        binding.fromEditText.setText(formattedValue)
-        isUpdatingEditText = false
+            // Set the value in the FROM TextInputEditText
+            isUpdatingEditText = true
+            binding.fromEditText.setText(formattedValue)
+            isUpdatingEditText = false
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 }
 

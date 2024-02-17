@@ -18,8 +18,8 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.moamen.currency.ui.fragments.SecondFragment"
+        android:name="com.moamen.currency.ui.fragments.DetailsFragment"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        tools:layout="@layout/fragment_details">
     </fragment>
 </navigation>

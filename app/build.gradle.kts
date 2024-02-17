@@ -4,6 +4,8 @@ plugins {
     id("kotlin-android")
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
+    id ("androidx.navigation.safeargs")
+
 }
 
 android {
@@ -12,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId = "com.moamen.currency"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -22,7 +24,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "FIXER_API_KEY", "\"3a9a1613007f143e9cd47ee35c7e6491\"")
+            buildConfigField("String", "FIXER_API_KEY", "\"7f32bef06cc581e53e33e9f69c99ce33\"")
             buildConfigField("String", "BASE_URL", "\"http://data.fixer.io/api/\"")
         }
         release {
@@ -31,7 +33,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "FIXER_API_KEY", "\"3a9a1613007f143e9cd47ee35c7e6491\"")
+            buildConfigField("String", "FIXER_API_KEY", "\"7f32bef06cc581e53e33e9f69c99ce33\"")
             buildConfigField("String", "BASE_URL", "\"http://data.fixer.io/api/\"")
         }
     }
@@ -47,6 +49,9 @@ android {
     }
     buildFeatures {
         viewBinding = true
+    }
+    dataBinding {
+        enable = true
     }
 }
 
