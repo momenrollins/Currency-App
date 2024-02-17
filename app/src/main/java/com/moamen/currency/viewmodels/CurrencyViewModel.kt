@@ -5,12 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.moamen.currency.BuildConfig
-import com.moamen.currency.model.ConvertedHistoryModel
-import com.moamen.currency.model.CurrencyModel
+import com.moamen.domain.entities.ConvertedHistoryModel
+import com.moamen.domain.entities.CurrencyModel
 import com.moamen.currency.network.utils.NetworkUtils
-import com.moamen.currency.repository.CurrencyRepository
 import com.moamen.currency.repository.MockCurrencyApiService
 import com.moamen.currency.util.UiState
+import com.moamen.domain.usecases.HistoricalRatesUseCase
+import com.moamen.domain.usecases.LatestRatesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
@@ -22,7 +23,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CurrencyViewModel @Inject constructor(
-    private val repository: CurrencyRepository
+    private val latestRatesUseCase: LatestRatesUseCase,
+    private val historicalRatesUseCase: HistoricalRatesUseCase
 ) : ViewModel() {
 
     private val _latestRatesState = MutableLiveData<UiState<CurrencyModel>>()
@@ -41,7 +43,7 @@ class CurrencyViewModel @Inject constructor(
                 try {
                     val response = if (BuildConfig.DEBUG)
                         MockCurrencyApiService.getLatestRates("")
-                    else repository.getLatestRates()
+                    else latestRatesUseCase.invoke()
                     if (response.success) {
                         _latestRatesState.value = UiState.Success(response)
                         latestRates = response
@@ -93,7 +95,7 @@ class CurrencyViewModel @Inject constructor(
 
                         for (i in 1..3) {
                             val date = currentDate.minusDays(i.toLong()).format(dateFormats)
-                            val deferred = async { repository.getHistoricalRates(date, symbols) }
+                            val deferred = async { historicalRatesUseCase.invoke(date, symbols) }
                             deferredResults.add(deferred)
                         }
 

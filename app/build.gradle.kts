@@ -83,8 +83,6 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
 
-    // Retrofit Kotlin Coroutine Adapter
-    implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
 
     // Gson for JSON parsing
     implementation("com.google.code.gson:gson:2.10")
@@ -97,6 +95,9 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    implementation(project(":data"))
+    implementation(project(":domain"))
 }
 
 // Allow references to generated code

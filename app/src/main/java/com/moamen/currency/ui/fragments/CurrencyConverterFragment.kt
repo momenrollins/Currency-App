@@ -115,8 +115,9 @@ class CurrencyConverterFragment : Fragment() {
                 updateFromValue()
         }
         binding.swipeToRefresh.setOnRefreshListener {
-            fetchLatestRates()
+//            fetchLatestRates()
         }
+        binding.swipeToRefresh.isEnabled = false
     }
 
     @SuppressLint("SetTextI18n")

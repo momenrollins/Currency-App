@@ -9,6 +9,7 @@ import com.moamen.currency.databinding.ItemConversionRateBinding
 
 class ConversionRateAdapter(
     private val fromCurrency: String,
+    private val fromRate: Double,
     private val rates: Map<String, Double>
 ) :
     RecyclerView.Adapter<ConversionRateAdapter.ConversionRateViewHolder>() {
@@ -43,8 +44,7 @@ class ConversionRateAdapter(
     private fun calculateValue(
         toRate: Double
     ): String {
-        val fromValue: Double = rates[fromCurrency] ?: 0.0
-        val conversionRate = toRate.div(fromValue)
+        val conversionRate = toRate.div(fromRate)
         return String.format("%.2f", conversionRate)
     }
 }

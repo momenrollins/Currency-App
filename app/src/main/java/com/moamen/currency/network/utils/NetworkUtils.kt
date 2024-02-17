@@ -6,7 +6,6 @@ import com.moamen.currency.CurrencyApplication
 import javax.inject.Inject
 
 object NetworkUtils {
-
     fun isNetworkAvailable(): Boolean {
         val connectivityManager =
             CurrencyApplication.instance.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

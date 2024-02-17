@@ -1,26 +1,26 @@
 package com.moamen.currency.repository
 
-import com.moamen.currency.model.CurrencyModel
-import com.moamen.currency.network.CurrencyApiService
+import com.moamen.data.ds.remote.CurrencyApiService
+import com.moamen.domain.entities.CurrencyModel
 
 object MockCurrencyApiService : CurrencyApiService {
     override suspend fun getLatestRates(apiKey: String): CurrencyModel {
         return CurrencyModel(
             success = true,
-            timestamp = 1708100103,
+            timestamp = 1708197963,
             base = "EUR",
-            date = "2024-02-16",
+            date = "2024-02-17",
             rates = mapOf(
-                "AED" to 3.956629,
-                "AFN" to 78.635587,
-                "ALL" to 103.761542,
-                "AMD" to 437.240252,
-                "ANG" to 1.942235,
-                "AOA" to 892.215867,
-                "ARS" to 899.518215,
-                "AUD" to 1.649672,
-                "AWG" to 1.938965,
-                "ZWL" to 346.858863
+                "BTC" to 2.095273e-5,
+                "DOP" to 63.16092,
+                "DZD" to 145.04414,
+                "EGP" to 33.172306,
+                "ERN" to 16.166399,
+                "ETB" to 61.033967,
+                "EUR" to 1.0,
+                "UGX" to 4176.162177,
+                "USD" to 1.07776,
+                "ZWL" to 347.038257
             )
         )
     }

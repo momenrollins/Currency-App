@@ -5,7 +5,7 @@
 
         <variable
             name="convertedHistory"
-            type="com.moamen.currency.model.ConvertedHistoryModel" />
+            type="com.moamen.domain.entities.ConvertedHistoryModel" />
 
     </data>
 

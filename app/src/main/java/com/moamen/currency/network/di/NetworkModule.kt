@@ -1,18 +1,14 @@
-package com.moamen.currency.network
+package com.moamen.currency.network.di
 
-import android.content.Context
-import android.provider.Settings
 import com.moamen.currency.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -38,7 +34,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideCurrencyApiService(retrofit: Retrofit): CurrencyApiService {
-        return retrofit.create(CurrencyApiService::class.java)
+    fun provideCurrencyApiService(retrofit: Retrofit): com.moamen.data.ds.remote.CurrencyApiService {
+        return retrofit.create(com.moamen.data.ds.remote.CurrencyApiService::class.java)
     }
 }

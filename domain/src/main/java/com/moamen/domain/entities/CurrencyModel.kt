@@ -1,4 +1,4 @@
-package com.moamen.currency.model
+package com.moamen.domain.entities
 
 data class CurrencyModel(
     val success: Boolean,

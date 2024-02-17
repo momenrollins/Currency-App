@@ -11,26 +11,15 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
-import com.github.mikephil.charting.components.AxisBase
-import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import com.github.mikephil.charting.formatter.ValueFormatter
 import com.moamen.currency.databinding.FragmentDetailsBinding
-import com.moamen.currency.model.ConvertedHistoryModel
-import com.moamen.currency.model.CurrencyModel
+import com.moamen.domain.entities.ConvertedHistoryModel
 import com.moamen.currency.ui.adapters.ConversionRateAdapter
 import com.moamen.currency.ui.adapters.CurrencyHistoryAdapter
 import com.moamen.currency.util.UiState
 import com.moamen.currency.viewmodels.CurrencyViewModel
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
-import java.util.Date
-import java.util.Locale
 
 class DetailsFragment : Fragment() {
 
@@ -63,12 +52,15 @@ class DetailsFragment : Fragment() {
 
     private fun setupViews() {
         historyAdapter = CurrencyHistoryAdapter(emptyList())
-        val sortedRates = viewModel.latestRates?.rates?.toList()?.sortedByDescending { it.second }
-        val popularRates = sortedRates?.take(10)?.toMap()
-        conversionRateAdapter = if (popularRates != null) {
-            ConversionRateAdapter(args.fromCurrency, popularRates)
-        } else
-            ConversionRateAdapter(args.fromCurrency, viewModel.latestRates!!.rates)
+        val sortedRates = viewModel.latestRates!!.rates.toList().sortedByDescending { it.second }
+        val popularRates = sortedRates.take(10).toMap()
+        conversionRateAdapter =
+            ConversionRateAdapter(
+                args.fromCurrency,
+                viewModel.latestRates!!.rates[args.fromCurrency] ?: 1.0,
+                popularRates
+            )
+
         binding.historyRecyclerView.adapter = historyAdapter
         binding.conversionRateRecyclerView.adapter = conversionRateAdapter
     }

@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.moamen.currency.databinding.ItemCurrencyHistoryBinding
-import com.moamen.currency.model.ConvertedHistoryModel
+import com.moamen.domain.entities.ConvertedHistoryModel
 
 class CurrencyHistoryAdapter(var items: List<ConvertedHistoryModel>) :
     RecyclerView.Adapter<CurrencyHistoryAdapter.CurrencyHistoryViewHolder>() {

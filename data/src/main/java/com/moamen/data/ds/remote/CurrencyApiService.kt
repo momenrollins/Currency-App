@@ -1,6 +1,6 @@
-package com.moamen.currency.network
+package com.moamen.data.ds.remote
 
-import com.moamen.currency.model.CurrencyModel
+import com.moamen.domain.entities.CurrencyModel
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
