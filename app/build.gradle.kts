@@ -24,7 +24,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "FIXER_API_KEY", "\"7f32bef06cc581e53e33e9f69c99ce33\"")
+            buildConfigField("String", "FIXER_API_KEY", "\"1ea559d8af4b17caeff7dd02359054b7\"")
             buildConfigField("String", "BASE_URL", "\"http://data.fixer.io/api/\"")
         }
         release {
@@ -33,7 +33,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "FIXER_API_KEY", "\"7f32bef06cc581e53e33e9f69c99ce33\"")
+            buildConfigField("String", "FIXER_API_KEY", "\"1ea559d8af4b17caeff7dd02359054b7\"")
             buildConfigField("String", "BASE_URL", "\"http://data.fixer.io/api/\"")
         }
     }
@@ -90,6 +90,8 @@ dependencies {
     implementation("com.google.code.gson:gson:2.10")
 
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
+
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
     // Test dependencies
     testImplementation("junit:junit:4.13.2")

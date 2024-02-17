@@ -35,7 +35,7 @@ class CurrencyHistoryAdapter(var items: List<CurrencyModel>) :
                 textViewFromCurrency.text = item.rates.keys.first()
                 textViewFromValue.text = "1"
                 textViewToCurrency.text = item.rates.keys.last()
-                textViewToValue.text = calculateValue(fromCurrency, toCurrency, "1.0", item.rates)
+                textViewToValue.text = calculateValue(fromCurrency, toCurrency, item.rates)
                 item.rates.values.last().toString()
             }
         }
@@ -44,12 +44,10 @@ class CurrencyHistoryAdapter(var items: List<CurrencyModel>) :
     private fun calculateValue(
         fromCurrency: String,
         toCurrency: String,
-        fromAmountText: String,
         rates: Map<String, Double>
     ): String {
-        val fromAmount = fromAmountText.toDoubleOrNull() ?: 0.0
         val conversionRate = rates[toCurrency]?.div(rates[fromCurrency] ?: 1.0) ?: 0.0
-        val convertedValue = fromAmount * conversionRate
+        val convertedValue = 1 * conversionRate
         return String.format("%.2f", convertedValue)
     }
 }

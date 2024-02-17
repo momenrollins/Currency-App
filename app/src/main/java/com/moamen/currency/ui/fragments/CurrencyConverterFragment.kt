@@ -11,9 +11,7 @@ import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.moamen.currency.R
 import com.moamen.currency.databinding.FragmentCurrencyConverterBinding
 import com.moamen.currency.util.UiState
 import com.moamen.currency.viewmodels.CurrencyViewModel
@@ -52,6 +50,7 @@ class CurrencyConverterFragment : Fragment() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.fromCurrencySpinner.adapter = adapter
         binding.toCurrencySpinner.adapter = adapter
+        binding.toCurrencySpinner.setSelection(1)
         binding.fromCurrencySpinner.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
@@ -94,7 +93,13 @@ class CurrencyConverterFragment : Fragment() {
         binding.detailsButton.setOnClickListener {
             val fromCurrency = binding.fromCurrencySpinner.selectedItem.toString()
             val toCurrency = binding.toCurrencySpinner.selectedItem.toString()
-            findNavController().navigate(
+            if (fromCurrency == toCurrency)
+                Toast.makeText(
+                    requireContext(),
+                    "Please select different currencies",
+                    Toast.LENGTH_SHORT
+                ).show()
+            else findNavController().navigate(
                 CurrencyConverterFragmentDirections.actionCurrencyConverterFragmentToDetailsFragment(
                     fromCurrency,
                     toCurrency
