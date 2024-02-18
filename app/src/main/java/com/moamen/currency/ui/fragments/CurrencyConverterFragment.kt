@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.moamen.currency.databinding.FragmentCurrencyConverterBinding
+import com.moamen.currency.network.utils.NetworkUtils
 import com.moamen.currency.util.UiState
 import com.moamen.currency.viewmodels.CurrencyViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -159,7 +160,14 @@ class CurrencyConverterFragment : Fragment() {
     }
 
     private fun fetchLatestRates() {
-        viewModel.fetchLatestRates()
+        if (!NetworkUtils.isNetworkAvailable())
+            Toast.makeText(
+                requireContext(),
+                "Check your network and try again!",
+                Toast.LENGTH_SHORT
+            ).show()
+        else
+            viewModel.fetchLatestRates()
     }
 
     private fun updateToValue() {

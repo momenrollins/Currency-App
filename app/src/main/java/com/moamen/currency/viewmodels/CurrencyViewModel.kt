@@ -35,24 +35,18 @@ class CurrencyViewModel @Inject constructor(
 
     var latestRates: CurrencyModel? = null
     fun fetchLatestRates() {
-        if (!NetworkUtils.isNetworkAvailable())
-            _latestRatesState.value = UiState.Error("Check your network and try again!")
-        else {
+        viewModelScope.launch {
             _latestRatesState.value = UiState.Loading
-            viewModelScope.launch {
-                try {
-                    val response = if (BuildConfig.DEBUG)
-                        MockCurrencyApiService.getLatestRates("")
-                    else latestRatesUseCase.invoke()
-                    if (response.success) {
-                        _latestRatesState.value = UiState.Success(response)
-                        latestRates = response
-                    } else {
-                        _latestRatesState.value = UiState.Error("Failed to fetch latest rates")
-                    }
-                } catch (e: Exception) {
-                    _latestRatesState.value = UiState.Error(e.message ?: "An error occurred")
+            try {
+                val response = latestRatesUseCase.invoke()
+                if (response.success) {
+                    _latestRatesState.value = UiState.Success(response)
+                    latestRates = response
+                } else {
+                    _latestRatesState.value = UiState.Error("Failed to fetch latest rates")
                 }
+            } catch (e: Exception) {
+                _latestRatesState.value = UiState.Error(e.message ?: "An error occurred")
             }
         }
     }
@@ -83,34 +77,30 @@ class CurrencyViewModel @Inject constructor(
         else {
             _historyState.value = UiState.Loading
             var convertedList: List<ConvertedHistoryModel>
-            if (BuildConfig.DEBUG) {
-                convertedList = getConvertList(symbols, currencyModels)
-                _historyState.value = UiState.Success(convertedList)
-            } else
-                viewModelScope.launch {
-                    try {
-                        val currentDate = LocalDate.now()
-                        val dateFormats = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                        val deferredResults = mutableListOf<Deferred<CurrencyModel>>()
+            viewModelScope.launch {
+                try {
+                    val currentDate = LocalDate.now()
+                    val dateFormats = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                    val deferredResults = mutableListOf<Deferred<CurrencyModel>>()
 
-                        for (i in 1..3) {
-                            val date = currentDate.minusDays(i.toLong()).format(dateFormats)
-                            val deferred = async { historicalRatesUseCase.invoke(date, symbols) }
-                            deferredResults.add(deferred)
-                        }
-
-                        val resultList = deferredResults.awaitAll()
-
-                        if (resultList.all { it.success }) {
-                            convertedList = getConvertList(symbols, resultList)
-                            _historyState.value = UiState.Success(convertedList)
-                        } else {
-                            _historyState.value = UiState.Error("Failed to fetch historical data")
-                        }
-                    } catch (e: Exception) {
-                        _historyState.value = UiState.Error(e.message ?: "An error occurred")
+                    for (i in 1..3) {
+                        val date = currentDate.minusDays(i.toLong()).format(dateFormats)
+                        val deferred = async { historicalRatesUseCase.invoke(date, symbols) }
+                        deferredResults.add(deferred)
                     }
+
+                    val resultList = deferredResults.awaitAll()
+
+                    if (resultList.all { it.success }) {
+                        convertedList = getConvertList(symbols, resultList)
+                        _historyState.value = UiState.Success(convertedList)
+                    } else {
+                        _historyState.value = UiState.Error("Failed to fetch historical data")
+                    }
+                } catch (e: Exception) {
+                    _historyState.value = UiState.Error(e.message ?: "An error occurred")
                 }
+            }
         }
     }
 
@@ -121,29 +111,5 @@ class CurrencyViewModel @Inject constructor(
         val conversionRate = toRate.div(fromRate)
         return String.format("%.2f", conversionRate).toDouble()
     }
-
-    private val currencyModels = listOf(
-        CurrencyModel(
-            success = true,
-            timestamp = 1708127999,
-            base = "EUR",
-            date = "2024-02-16",
-            rates = mapOf("AED" to 3.958657, "AFN" to 78.676872)
-        ),
-        CurrencyModel(
-            success = true,
-            timestamp = 1708041599,
-            base = "EUR",
-            date = "2024-02-15",
-            rates = mapOf("AED" to 3.956947, "AFN" to 78.104203)
-        ),
-        CurrencyModel(
-            success = true,
-            timestamp = 1707955199,
-            base = "EUR",
-            date = "2024-02-14",
-            rates = mapOf("AED" to 3.941668, "AFN" to 78.342024)
-        )
-    )
 
 }
